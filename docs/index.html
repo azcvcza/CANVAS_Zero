@@ -23,11 +23,29 @@
 <script>
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext('2d');
-    context.lineWidth = 1;
-    context.strokeStyle = '#AA394C';
 
+    context.beginPath();
     context.moveTo(10, 10);
     context.lineTo(60, 60);
+    context.lineTo(70, 50);
+    context.lineWidth = 1;
+    context.strokeStyle = '#AA394C';
+    context.stroke();
+
+    context.beginPath();
+    context.moveTo(10, 20);
+    context.lineTo(60, 50);
+    context.lineTo(70, 60);
+    context.lineWidth = 1;
+    context.strokeStyle = '#000';
+    context.stroke();
+
+    context.beginPath();
+    context.moveTo(10, 15);
+    context.lineTo(60, 45);
+    context.lineTo(70, 55);
+    context.lineWidth = 1;
+    context.strokeStyle = 'grey';
     context.stroke();
 </script>
 
