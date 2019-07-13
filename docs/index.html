@@ -21,51 +21,56 @@
     <canvas id="canvas"></canvas>
 </body>
 <script>
+    var balls = [];
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
     window.onload = function() {
-        var canvas = document.getElementById("canvas");
         canvas.width = 800;
         canvas.height = 600;
-        var context = canvas.getContext("2d");
-        context.fillStyle = "#FFF";
-        context.fillRect(0, 0, 800, 600);
 
-        context.beginPath();
-        context.rect(200, 100, 400, 400);
-        drawPathRect(context, 250, 150, 300, 150);
-        drawPathTriangle(context, 345, 350, 420, 450, 270, 450);
-        context.arc(500, 400, 50, 0, Math.PI * 2, true);
-        context.closePath();
+        for (var i = 0; i < 50; i++) {
+            var aBall = {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 50 + 20
+            };
+            balls[i] = aBall;
+        }
 
-        context.fillStyle = "#058";
-        context.shadowColor = "gray";
-        context.shadowOffsetX = 10;
-        context.shadowOffsetY = 10;
-        context.shadowBlur = 10;
-        context.fill();
-
+        draw();
+        canvas.addEventListener("mousemove", detect);
     };
 
-    //逆时针绘制矩形
-    function drawPathRect(cxt, x, y, w, h) {
-        /**
-         * 这里不能使用beginPath和closePath，
-         * 不然就不属于子路径而是另一个全新的路径，
-         * 无法使用非零环绕原则
-         */
-        cxt.moveTo(x, y);
-        cxt.lineTo(x, y + h);
-        cxt.lineTo(x + w, y + h);
-        cxt.lineTo(x + w, y);
-        cxt.lineTo(x, y);
+    function draw() {
+        for (var i = 0; i < balls.length; i++) {
+            context.beginPath();
+            context.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2);
+            context.globalAlpha = 0.5;
 
+            var R = Math.floor(Math.random() * 255);
+            var G = Math.floor(Math.random() * 255);
+            var B = Math.floor(Math.random() * 255);
+
+            context.fillStyle = "rgb(" + R + "," + G + "," + B + ")";
+            context.fill();
+
+        }
     }
 
-    //逆时针绘制三角形
-    function drawPathTriangle(cxt, x1, y1, x2, y2, x3, y3) {
-        cxt.moveTo(x1, y1);
-        cxt.lineTo(x3, y3);
-        cxt.lineTo(x2, y2);
-        cxt.lineTo(x1, y1);
+    function detect() {
+        var x = event.clientX - canvas.getBoundingClientRect().left;
+        var y = event.clientY - canvas.getBoundingClientRect().top;
+
+        for (var i = 0; i < balls.length; i++) {
+            context.beginPath();
+            context.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2);
+
+            if (context.isPointInPath(x, y)) {
+                context.fillStyle = "rgba(255,255,255,0.1)";
+                context.fill();
+            }
+        }
     }
 </script>
 
