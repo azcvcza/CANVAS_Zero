@@ -21,18 +21,35 @@
     <canvas id="canvas"></canvas>
 </body>
 <script>
-    var canvas = document.getElementById("canvas");
-    var context = canvas.getContext('2d');
+    window.onload = function() {
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext('2d');
+        canvas.height = 600;
+        canvas.width = 800;
 
-    context.beginPath();
-    context.moveTo(10, 10);
-    context.lineTo(10, 60);
-    context.lineTo(50, 60);
-    context.lineTo(50, 10);
-    context.lineTo(10, 10);
-    context.lineWidth = 1;
-    context.strokeStyle = '#AA394C';
-    context.stroke();
+        drawRect(context, 150, 50, 50, 50, 'red', 5, 'blue');
+        drawRect(context, 250, 50, 50, 50, "green", 5, "red");
+        drawRect(context, 350, 50, 50, 50, "yellow", 5, "black");
+    }
+
+
+
+    function drawRect(context, x, y, width, height, fillColor, borderWidth, borderColor) {
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(x + width, y);
+        context.lineTo(x + width, y + height);
+        context.lineTo(x, y + height);
+        context.lineTo(x, y);
+        context.closePath();
+
+        context.lineWidth = borderWidth;
+        context.strokeStyle = borderColor;
+        context.fillStyle = fillColor;
+
+        context.fill();
+        context.stroke();
+    }
 </script>
 
 </html>
